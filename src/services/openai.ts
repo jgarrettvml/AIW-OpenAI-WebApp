@@ -62,7 +62,9 @@ class OpenAIService {
       .filter(message => message.role === "assistant")
       .shift();
 
-    return lastMessage?.content[0]?.text?.value || "I apologize, but I couldn't process your request.";
+      if (lastMessage?.content[0]?.type === 'text') {
+        return (lastMessage.content[0] as { type: 'text', text: { value: string } }).text.value;
+      }
   }
 }
 
